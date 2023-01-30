@@ -48,5 +48,12 @@ api.add_resource(IsValidWord, '/is_valid_word/<string:word>')
 api.add_resource(GetWord, '/get_word')
 api.add_resource(GetGuessCount, '/get_guess_count')
 
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
 app.run(debug=True)
         
