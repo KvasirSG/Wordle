@@ -9,13 +9,14 @@ game = Wordle('possible_words.txt')
 
 # api for checking if the word is correct and returning the positions of the correct letters and the misplaced letters
 class CheckWord(Resource):
-    def get(self, word):
+    def post(self, word):
         game.add_guess()
+        game.tried_words.append(word)
         if game.is_valid_word(word):
             if game.check_word(word):
-                return {'correct': True}, 200
+                return {'correct': True}, 201
             else:
-                return {'correct': False, 'correct_letters': game.get_correct_letters(word), 'misplaced_letters': game.get_misplaced_letters(word)}, 200
+                return {'correct': False, 'correct_letters': game.get_correct_letters(word), 'misplaced_letters': game.get_misplaced_letters(word), 'tried_words': game.tried_words}, 200
         else:
             return "Is not a valid word", 400
 
@@ -29,8 +30,8 @@ class NewGame(Resource):
 
 # api for checking if the word is valid
 class IsValidWord(Resource):
-    def get(self, word):
-        return {'valid': game.is_valid_word(word)}, 200
+    def post(self, word):
+        return {'valid': game.is_valid_word(word)}, 201
 
 # api for getting the word
 class GetWord(Resource):
@@ -42,11 +43,29 @@ class GetGuessCount(Resource):
     def get(self):
         return {'guess_count': game.guess_count}, 200
 
+class GetTriedWords(Resource):
+    def get(self):
+        return {'tried_words': game.tried_words}, 200
+
+# add tried words to the tried words list
+class AddTriedWord(Resource):
+    def post(self, word):
+        game.tried_words.append(word)
+        return {'tried_words': game.tried_words}, 201
+
+class resetGame(Resource):
+    def get(self):
+        game.reset()
+        return {'word': game.word}, 200
+
 api.add_resource(CheckWord, '/guess/<string:word>')
 api.add_resource(NewGame, '/new_game')
 api.add_resource(IsValidWord, '/is_valid_word/<string:word>')
 api.add_resource(GetWord, '/get_word')
 api.add_resource(GetGuessCount, '/get_guess_count')
+api.add_resource(GetTriedWords, '/get_tried_words')
+api.add_resource(AddTriedWord, '/add_tried_word/<string:word>')
+api.add_resource(resetGame, '/new_game')
 
 @app.after_request
 def after_request(response):

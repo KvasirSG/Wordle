@@ -13,4 +13,16 @@ export class WordleService {
   getWord(): Observable<any> {
     return this.http.get(this.baseUrl + "/get_word");
   }
+
+  getTries(): Observable<any> {
+    return this.http.get(this.baseUrl + "/get_tried_words");
+  }
+
+  submitTry(tryWord: string): Observable<any> {
+    return this.http.post(this.baseUrl + "/guess/" + tryWord, {});
+  }
+
+  reset(): Observable<any> {
+    return this.http.post(this.baseUrl + "/reset", {});
+  }
 }

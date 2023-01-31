@@ -6,6 +6,7 @@ class Wordle():
         self.words = self.get_words()
         self.word = self.get_random_word()
         self.guess_count = 0
+        self.tried_words = []
         
 
     # get all the words from the file
@@ -55,3 +56,17 @@ class Wordle():
     # add guess to guess count
     def add_guess(self):
         self.guess_count += 1
+    
+    # check if the word has been tried before
+    def is_tried_word(self, word):
+        return word in self.tried_words
+    
+    # add word to tried words
+    def add_tried_word(self, word):
+        self.tried_words.append(word)
+    
+    # reset the game
+    def reset(self):
+        self.word = self.get_random_word()
+        self.guess_count = 0
+        self.tried_words = []
