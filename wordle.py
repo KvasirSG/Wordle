@@ -7,6 +7,7 @@ class Wordle():
         self.word = self.get_random_word()
         self.guess_count = 0
         self.tried_words = []
+        self.tries = []
         
 
     # get all the words from the file
@@ -26,27 +27,48 @@ class Wordle():
         return word == self.word
             
     # return the positions of the correct letters
+    def get_correct_letters_pos(self, word):
+        correct_letters_pos = []
+        for i in range(len(self.word)):
+            if self.word[i] == word[i]:
+                correct_letters_pos.append(i)
+        return correct_letters_pos
+
+    # return the positions of the incorrect letters
+    def get_incorrect_letters_pos(self, word):
+        incorrect_letters_pos = []
+        for i in range(len(self.word)):
+            if self.word[i] != word[i]:
+                incorrect_letters_pos.append(i)
+        return incorrect_letters_pos
+
+    # return the positions of the letters that are in the word but in the wrong position
+    def get_misplaced_letters_pos(self, word):
+        misplaced_letters_pos = []
+        for i in range(len(self.word)):
+            if self.word[i] != word[i] and word[i] in self.word:
+                misplaced_letters_pos.append(i)
+        return misplaced_letters_pos
+
     def get_correct_letters(self, word):
         correct_letters = []
         for i in range(len(self.word)):
             if self.word[i] == word[i]:
-                correct_letters.append(i)
+                correct_letters.append(word[i])
         return correct_letters
-
-    # return the positions of the incorrect letters
+    
     def get_incorrect_letters(self, word):
         incorrect_letters = []
         for i in range(len(self.word)):
             if self.word[i] != word[i]:
-                incorrect_letters.append(i)
+                incorrect_letters.append(word[i])
         return incorrect_letters
 
-    # return the positions of the letters that are in the word but in the wrong position
     def get_misplaced_letters(self, word):
         misplaced_letters = []
         for i in range(len(self.word)):
             if self.word[i] != word[i] and word[i] in self.word:
-                misplaced_letters.append(i)
+                misplaced_letters.append(word[i])
         return misplaced_letters
 
     # check if it's a valid word
@@ -64,6 +86,9 @@ class Wordle():
     # add word to tried words
     def add_tried_word(self, word):
         self.tried_words.append(word)
+
+    def add_try(self, wordcheck):
+        self.tries.append(wordcheck)
     
     # reset the game
     def reset(self):

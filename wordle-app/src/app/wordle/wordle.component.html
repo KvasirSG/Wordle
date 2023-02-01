@@ -1,12 +1,40 @@
-<p>Worlde Component</p>
-<div>
-<ul>
-    <li *ngFor="let word of this.tries">
-        {{word}} - {{this.correctLetters}}
-    </li>
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wordle Clone!</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+  </head>
+  <body>
+    <div id="container">
+      <div id="game">
+        <header>
+          <h1 class="title">WORDLE</h1>
+        </header>
 
-<input type="text" #box (keyup.enter)="click(box.value)">
-<p>{{this.error}}</p>
-</div>
-<p>{{correct}}</p>
+        <div id="board-container">
+          <div id="board">
+          <div class="square animate__animated">{{typedword[0]}}</div>
+          <div class="square animate__animated">{{typedword[1]}}</div>
+          <div class="square animate__animated">{{typedword[2]}}</div>
+          <div class="square animate__animated">{{typedword[3]}}</div>
+          <div class="square animate__animated">{{typedword[4]}}</div>
+        </div>
+        </div>
+
+        <div id="keyboard-container">
+          <div *ngFor="let keyboardrow of this.keyboardrows; let i = index" class="keyboard-row">
+            <div *ngIf="i == 1" class="spacer-half"></div>
+            <button *ngFor="let key of keyboardrow" (click)="keyboard('{{key[0]}}')" class="{{key[1]}} {{key[2]}}">{{key[0]}}</button>
+            <div *ngIf="i == 1" class="spacer-half"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

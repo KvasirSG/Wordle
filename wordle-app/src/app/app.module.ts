@@ -14,7 +14,7 @@ import { WordleComponent } from './wordle/wordle.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
