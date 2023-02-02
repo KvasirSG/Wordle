@@ -1,0 +1,19 @@
+.idle {
+    background-color: rgb(129, 131, 132);
+}
+
+.active {
+    background-color: rgb(58, 58, 60);
+}
+
+.correct {
+    background-color: green;
+}
+
+.incorrect {
+    background-color: brown;
+}
+
+.misplaced {
+    background-color: orange;
+}

@@ -14,11 +14,26 @@
     <div id="container">
       <div id="game">
         <header>
-          <h1 class="title">WORDLE</h1>
+          <h1 class="title">WORDLE CLONE</h1>
         </header>
+        <div *ngIf="getStatus()">
+          <h1 class="title">YOU WIN!</h1>
+          <h2 class="title">The word was: {{this.getWord()}}</h2>
+          <h2 *ngIf="this.numberOfTries > 1" class="title">You took {{this.numberOfTries}} tries</h2>
+          <h2 *ngIf="this.numberOfTries == 1" class="title">You took {{this.numberOfTries}} try</h2>
+          <button (click)="reset()">Play Again</button>
+        
+        </div>
 
-        <div id="board-container">
+        <div *ngIf="!this.getStatus()" id="board-container">
           <div id="board">
+            <ng-container *ngFor="let try of this.triesList;let i=index;">
+              <ng-container *ngFor="let letter of try[0].split('');let j=index;">
+                <div *ngIf="try[1].includes(j)" class="square animate__animated correct">{{letter}}</div>
+                <div *ngIf="try[2].includes(j)" class="square animate__animated misplaced">{{letter}}</div>
+                <div *ngIf="!try[1].includes(j) && !try[2].includes(j)" class="square animate__animated">{{letter}}</div>
+              </ng-container>
+            </ng-container>
           <div class="square animate__animated">{{typedword[0]}}</div>
           <div class="square animate__animated">{{typedword[1]}}</div>
           <div class="square animate__animated">{{typedword[2]}}</div>
@@ -26,11 +41,12 @@
           <div class="square animate__animated">{{typedword[4]}}</div>
         </div>
         </div>
+        <p class="incorrect" style="color: aliceblue;">{{this.getError()}}</p>
 
-        <div id="keyboard-container">
+        <div *ngIf="!this.getStatus()" id="this.correctkeyboard-container">
           <div *ngFor="let keyboardrow of this.keyboardrows; let i = index" class="keyboard-row">
             <div *ngIf="i == 1" class="spacer-half"></div>
-            <button *ngFor="let key of keyboardrow" (click)="keyboard('{{key[0]}}')" class="{{key[1]}} {{key[2]}}">{{key[0]}}</button>
+            <button *ngFor="let key of keyboardrow" (click)="keyboard(key[0])" class="{{key[1]}} {{key[2]}}">{{key[0]}}</button>
             <div *ngIf="i == 1" class="spacer-half"></div>
           </div>
         </div>

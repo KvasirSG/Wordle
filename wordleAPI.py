@@ -15,7 +15,7 @@ class CheckWord(Resource):
         game.tries.append([word, game.get_correct_letters_pos(word), game.get_misplaced_letters_pos(word)])
         if game.is_valid_word(word):
             if game.check_word(word):
-                return {'correct': True}, 201
+                return {'correct': True, 'guess_count':game.guess_count }, 201
             else:
                 return {'correct': False, 'correct_letters': game.get_correct_letters(word),'incorrect_letters':game.get_incorrect_letters(word), 'misplaced_letters': game.get_misplaced_letters(word), 'correct_letters_pos':game.get_correct_letters_pos(word), 'misplaced_letters_pos':game.get_misplaced_letters_pos(word), 'tries': game.tries, 'guess_count':game.guess_count }, 200
         else:
@@ -27,6 +27,7 @@ class NewGame(Resource):
         game.set_random_word()
         game.guess_count = 0
         game.tried_words = []
+        game.tries = []
 
         return {'word': game.word}, 200
 

@@ -45,4 +45,8 @@ export class WordleService {
   getTriesList(): Observable<any> {
     return this.http.get(this.baseUrl + '/get_tries');
   }
+
+  isValidWord(word:string): Observable<any> {
+    return this.http.post(this.baseUrl + '/is_valid_word/' + word, {});
+  }
 }
