@@ -41,9 +41,9 @@ I min løsning er game mechanics klassen sat ind i en API så man kan tilgå spi
 
 ## API Documentation
 
-- Make a guess: ``POST /guess/<string:word>
+- Make a guess: `POST /guess/<string:word>`
 - Request new game: `GET /new_game`
-- Check if a valid word: `POST /is_valid_word/<string:word>
+- Check if a valid word: `POST /is_valid_word/<string:word>`
 - Get the current word: `GET /get_word`
 - Get the number of guesses: `GET /get_guess_count`
 - Get Tries: `GET /get_tries`
