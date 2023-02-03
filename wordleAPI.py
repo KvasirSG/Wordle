@@ -21,7 +21,7 @@ class CheckWord(Resource):
         else:
             return "Is not a valid word", 400
 
-# api for getting a new word
+# api for getting a new word and resetting the game state
 class NewGame(Resource):
     def get(self):
         game.set_random_word()
@@ -31,7 +31,7 @@ class NewGame(Resource):
 
         return {'word': game.word}, 200
 
-# api for checking if the word is valid
+# api for checking if the word is a valid word
 class IsValidWord(Resource):
     def post(self, word):
         return {'valid': game.is_valid_word(word)}, 201
@@ -46,6 +46,7 @@ class GetGuessCount(Resource):
     def get(self):
         return {'guess_count': game.guess_count}, 200
 
+# api for getting the tried words
 class GetTriedWords(Resource):
     def get(self):
         return {'tried_words': game.tried_words}, 200
@@ -57,15 +58,18 @@ class AddTries(Resource):
         game.tries.append(content['tries'])
         return {'tries': game.tries}, 201
 
+# get the tries
 class GetTries(Resource):
     def get(self):
         return {'tries': game.tries}, 200
 
+# reset the game
 class resetGame(Resource):
     def get(self):
         game.reset()
         return {'word': game.word}, 200
 
+# get the correct letters
 class getCorrectLetters(Resource):
     def post(self, word):
         correct_letters = []
@@ -73,6 +77,7 @@ class getCorrectLetters(Resource):
             correct_letters.append(word[i])
         return {'correct_letters': correct_letters}, 201
 
+# get the misplaced letters
 class getMisplacedLetters(Resource):
     def post(self, word):
         misplaced_letters = []
@@ -80,6 +85,7 @@ class getMisplacedLetters(Resource):
             misplaced_letters.append(word[i])
         return {'misplaced_letters': misplaced_letters}, 201
 
+# get the incorrect letters
 class getIncorrectLetters(Resource):
     def post(self, word):
         incorrect_letters = []
@@ -87,6 +93,7 @@ class getIncorrectLetters(Resource):
             incorrect_letters.append(word[i])
         return {'incorrect_letters': incorrect_letters}, 201
 
+# add the resources to the api
 api.add_resource(CheckWord, '/guess/<string:word>')
 api.add_resource(NewGame, '/new_game')
 api.add_resource(IsValidWord, '/is_valid_word/<string:word>')
@@ -99,6 +106,7 @@ api.add_resource(getCorrectLetters, '/get_correct_letters/<string:word>')
 api.add_resource(getMisplacedLetters, '/get_misplaced_letters/<string:word>')
 api.add_resource(getIncorrectLetters, '/get_incorrect_letters/<string:word>')
 
+# add cors headers
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
@@ -106,5 +114,6 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     return response
 
+# run the app
 app.run(debug=True)
         
